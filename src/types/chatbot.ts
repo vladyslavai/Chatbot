@@ -8,6 +8,19 @@ export interface Answer {
   questionId: number;
   selectedOption: string;
   optionIndex: number;
+  customAnswer?: string;
+}
+
+export interface UserResponse {
+  question: string;
+  answer: string;
+  isCustom: boolean;
+}
+
+export interface OpenAIResponse {
+  role: string;
+  reasoning: string;
+  confidence: number;
 }
 
 export interface CareerProfile {
@@ -33,6 +46,7 @@ export enum ChatState {
   QUESTION = 'question',
   PROCESSING = 'processing',
   RESULT = 'result',
+  AI_RESULT = 'ai_result',
   CONTACT_FORM = 'contact_form'
 }
 
