@@ -2,8 +2,8 @@ import ChatInterface from '@/components/ChatInterface';
 
 export default function Home() {
   return (
-    <main>
+    <div className="relative">
       <ChatInterface />
-    </main>
+    </div>
   );
 }
