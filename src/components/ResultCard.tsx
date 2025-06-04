@@ -26,9 +26,14 @@ export default function ResultCard({
   return (
     <div className="card">
       <div className="mb-4 text-center">
-        <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>{profile.icon}</div>
-        <h2 className="mb-2">🎯 Ihr Karriere-Match</h2>
-        <h3>{profile.title}</h3>
+        <div 
+          className="w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4"
+          style={{ background: 'var(--zurich-blue)' }}
+        >
+          <span className="text-white text-2xl">{profile.icon}</span>
+        </div>
+        <h2 className="mb-2" style={{ color: 'var(--zurich-navy)' }}>Ihr Karriere-Match</h2>
+        <h3 style={{ color: 'var(--zurich-blue)' }}>{profile.title}</h3>
       </div>
 
       <div className="text-center mb-6">
@@ -36,12 +41,12 @@ export default function ResultCard({
       </div>
 
       <div className="card mb-6">
-        <h3>📋 Beschreibung</h3>
+        <h3 style={{ color: 'var(--zurich-navy)' }}>Beschreibung</h3>
         <p>{profile.description}</p>
       </div>
 
       <div className="card mb-6">
-        <h3>🚀 Nächste Schritte</h3>
+        <h3 style={{ color: 'var(--zurich-navy)' }}>Nächste Schritte</h3>
         <ul style={{ listStyle: 'decimal', paddingLeft: '1.25rem' }}>
           {profile.nextSteps.map((step: string, index: number) => (
             <li key={index} className="mb-2">

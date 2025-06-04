@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
 import { ChatMessage, Answer, ChatState, Language, Analytics, ContactForm as ContactFormType, UserResponse, OpenAIResponse } from '@/types/chatbot';
 import { questions, careerProfiles } from '@/data/questions';
 import { translations } from '@/data/translations';
@@ -10,7 +11,7 @@ import QuestionOptions from './QuestionOptions';
 import ProgressIndicator from './ProgressIndicator';
 import ResultCard from './ResultCard';
 import AIResultCard from './AIResultCard';
-import AnalyticsCard from './AnalyticsCard';
+import MetricCardsGrid from './MetricCardsGrid';
 import LanguageSelector from './LanguageSelector';
 import ContactForm from './ContactForm';
 import { Brain, Loader2 } from 'lucide-react';
@@ -280,13 +281,18 @@ export default function ChatInterface() {
       <div className="header">
         <div className="container">
           <div className="header-content">
-            <div>
-              {chatState !== ChatState.WELCOME && (
-                <a href="#" onClick={restartSurvey} className="back-button">
-                  ← Zurück zum Start
-                </a>
-              )}
-              <h1>🤖 KI-Karriereberater</h1>
+            <div className="header-left">
+              <Image 
+                src="/Ch_zh_logo_stadt.png" 
+                alt="Stadt Zürich" 
+                width={120}
+                height={40}
+                className="header-logo-main"
+                priority
+              />
+              <div>
+                <h1>KI-Karriereberater</h1>
+              </div>
             </div>
             <LanguageSelector 
               currentLanguage={language} 
@@ -310,7 +316,7 @@ export default function ChatInterface() {
         {/* Analytics Section - Show during questions and results */}
         {(chatState === ChatState.QUESTION || chatState === ChatState.PROCESSING || chatState === ChatState.AI_RESULT || chatState === ChatState.RESULT) && (
           <div className="fade-in">
-            <AnalyticsCard
+            <MetricCardsGrid
               analytics={analytics}
               userResponses={userResponses}
               totalTime={currentTime}
@@ -326,18 +332,18 @@ export default function ChatInterface() {
             <div className="flex flex-col items-center gap-4">
               <div className="relative">
                 <div 
-                  className="w-16 h-16 rounded-xl flex items-center justify-center animate-pulse"
-                  style={{ background: 'var(--gradient-primary)' }}
+                  className="w-16 h-16 rounded-lg flex items-center justify-center animate-pulse"
+                  style={{ background: 'var(--zurich-blue)' }}
                 >
                   <Brain className="w-8 h-8 text-white" />
                 </div>
                 <Loader2 
                   className="absolute -top-2 -right-2 w-6 h-6 animate-spin"
-                  style={{ color: 'var(--kaboom-sunflower)' }}
+                  style={{ color: 'var(--zurich-cyan)' }}
                 />
               </div>
               <div>
-                <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--kaboom-violet)' }}>
+                <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--zurich-navy)' }}>
                   KI analysiert Ihr Profil...
                 </h3>
                 <p className="text-gray-600">
@@ -347,19 +353,19 @@ export default function ChatInterface() {
               <div className="flex gap-2">
                 <div 
                   className="w-2 h-2 rounded-full animate-bounce"
-                  style={{ background: 'var(--kaboom-mint)' }}
+                  style={{ background: 'var(--zurich-cyan)' }}
                 ></div>
                 <div 
                   className="w-2 h-2 rounded-full animate-bounce"
                   style={{ 
-                    background: 'var(--kaboom-lavender)',
+                    background: 'var(--zurich-blue)',
                     animationDelay: '0.1s' 
                   }}
                 ></div>
                 <div 
                   className="w-2 h-2 rounded-full animate-bounce"
                   style={{ 
-                    background: 'var(--kaboom-tangerine)',
+                    background: 'var(--zurich-navy)',
                     animationDelay: '0.2s' 
                   }}
                 ></div>
@@ -369,16 +375,16 @@ export default function ChatInterface() {
         )}
 
         {/* Chat Messages */}
-        <div className="chat-container">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
           {messages.map((message, messageIndex) => (
-            <div key={message.id} className="fade-in">
+            <div key={message.id}>
               <ChatMessageComponent message={message} />
               
               {message.isBot && 
                message.options && 
                showOptions && 
                messageIndex === messages.length - 1 && (
-                <div className="fade-in">
+                <div className="mt-6 animate-fade-in">
                   <QuestionOptions
                     options={message.options}
                     onSelect={handleOptionSelect}
@@ -390,7 +396,7 @@ export default function ChatInterface() {
           ))}
 
           {isTyping && (
-            <div className="fade-in">
+            <div className="animate-fade-in">
               <ChatMessageComponent 
                 message={{
                   id: 'typing',

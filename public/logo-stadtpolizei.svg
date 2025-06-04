@@ -1,0 +1,19 @@
+<svg width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Shield -->
+  <path d="M20 2 L35 2 L35 8 L38 11 L38 25 L35 28 L20 38 L5 28 L2 25 L2 11 L5 8 L5 2 Z" 
+        fill="#003366" stroke="#001c3d" stroke-width="0.5"/>
+  
+  <!-- Swiss Cross -->
+  <rect x="17" y="12" width="6" height="2" fill="white"/>
+  <rect x="19" y="10" width="2" height="6" fill="white"/>
+  
+  <!-- Star -->
+  <polygon points="20,18 21,21 24,21 21.5,23 22.5,26 20,24 17.5,26 18.5,23 16,21 19,21" 
+           fill="white"/>
+  
+  <!-- Text -->
+  <g fill="#003366" font-family="system-ui, sans-serif" font-weight="600">
+    <text x="45" y="14" font-size="9">STADTPOLIZEI</text>
+    <text x="45" y="26" font-size="7" fill="#0076a8">ZÜRICH</text>
+  </g>
+</svg> 

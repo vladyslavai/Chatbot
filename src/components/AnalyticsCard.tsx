@@ -1,7 +1,7 @@
 'use client';
 
 import { Analytics, UserResponse } from '@/types/chatbot';
-import { Clock, BarChart3, Activity, Award } from 'lucide-react';
+import { Clock, BarChart3, Activity, Award, TrendingUp } from 'lucide-react';
 
 interface AnalyticsCardProps {
   analytics: Analytics;
@@ -34,107 +34,148 @@ export default function AnalyticsCard({
   const standardAnswersCount = userResponses.length - customAnswersCount;
 
   const getEngagementLevel = () => {
-    if (averageQuestionTime > 45) return { level: 'Hoch', color: 'var(--kaboom-mint)' };
-    if (averageQuestionTime > 20) return { level: 'Mittel', color: 'var(--kaboom-sunflower)' };
-    return { level: 'Schnell', color: 'var(--kaboom-lavender)' };
+    if (averageQuestionTime > 45) return { level: 'Hoch', color: 'var(--success)', bgColor: '#f0f9f0' };
+    if (averageQuestionTime > 20) return { level: 'Mittel', color: 'var(--warning)', bgColor: '#fff9e6' };
+    return { level: 'Schnell', color: 'var(--zurich-cyan)', bgColor: '#e6f7ff' };
   };
 
   const engagement = getEngagementLevel();
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <div className="analytics-grid">
       {/* Progress Card */}
-      <div className="card">
-        <div className="flex items-center justify-between mb-3">
-          <div 
-            className="w-10 h-10 rounded-lg flex items-center justify-center"
-            style={{ background: 'var(--kaboom-lavender)' }}
-          >
-            <BarChart3 className="w-5 h-5 text-white" />
+      <div className="analytics-card progress-card">
+        <div className="analytics-card-header">
+          <div className="analytics-icon-container progress-icon">
+            <BarChart3 className="analytics-icon" />
           </div>
-          <span className="text-xl font-bold text-gray-800">{Math.round(progressPercentage)}%</span>
+          <div className="analytics-progress-circle">
+            <svg viewBox="0 0 36 36" className="circular-chart">
+              <circle
+                className="circle-bg"
+                cx="18" cy="18" r="15.9"
+                fill="transparent"
+                stroke="var(--gray-200)"
+                strokeWidth="2"
+              />
+              <circle
+                className="circle"
+                cx="18" cy="18" r="15.9"
+                fill="transparent"
+                stroke="var(--zurich-blue)"
+                strokeWidth="2"
+                strokeDasharray={`${progressPercentage}, 100`}
+                strokeLinecap="round"
+                transform="rotate(-90 18 18)"
+              />
+              <text x="18" y="20" className="percentage-text">
+                {Math.round(progressPercentage)}%
+              </text>
+            </svg>
+          </div>
         </div>
-        <h4 className="font-semibold text-gray-800 mb-2 text-sm">Fortschritt</h4>
-        <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden mb-2">
-          <div 
-            className="h-full rounded-full transition-all duration-500"
-            style={{ 
-              width: `${progressPercentage}%`,
-              background: 'var(--kaboom-lavender)'
-            }}
-          ></div>
+        <div className="analytics-card-content">
+          <h4 className="analytics-title">Fortschritt</h4>
+          <p className="analytics-subtitle">
+            {currentQuestion} von {totalQuestions} Fragen
+          </p>
+          <div className="analytics-progress-bar">
+            <div 
+              className="analytics-progress-fill"
+              style={{ width: `${progressPercentage}%` }}
+            />
+          </div>
         </div>
-        <p className="text-xs text-gray-600">
-          {currentQuestion} von {totalQuestions} Fragen
-        </p>
       </div>
 
       {/* Time Card */}
-      <div className="card">
-        <div className="flex items-center justify-between mb-3">
-          <div 
-            className="w-10 h-10 rounded-lg flex items-center justify-center"
-            style={{ background: 'var(--kaboom-tangerine)' }}
-          >
-            <Clock className="w-5 h-5 text-white" />
+      <div className="analytics-card time-card">
+        <div className="analytics-card-header">
+          <div className="analytics-icon-container time-icon">
+            <Clock className="analytics-icon" />
           </div>
-          <span className="text-xl font-bold text-gray-800">{formatTime(totalTime)}</span>
+          <div className="analytics-metric">
+            <span className="analytics-value">{formatTime(totalTime)}</span>
+          </div>
         </div>
-        <h4 className="font-semibold text-gray-800 mb-2 text-sm">Gesamtzeit</h4>
-        <p className="text-xs text-gray-600">
-          ⌀ {formatTime(Math.round(averageQuestionTime))} pro Frage
-        </p>
+        <div className="analytics-card-content">
+          <h4 className="analytics-title">Gesamtzeit</h4>
+          <p className="analytics-subtitle">
+            ⌀ {formatTime(Math.round(averageQuestionTime))} pro Frage
+          </p>
+          <div className="analytics-trend">
+            <TrendingUp className="analytics-trend-icon" />
+            <span className="analytics-trend-text">Konstant</span>
+          </div>
+        </div>
       </div>
 
       {/* Engagement Card */}
-      <div className="card">
-        <div className="flex items-center justify-between mb-3">
+      <div className="analytics-card engagement-card" style={{ background: engagement.bgColor }}>
+        <div className="analytics-card-header">
           <div 
-            className="w-10 h-10 rounded-lg flex items-center justify-center"
+            className="analytics-icon-container engagement-icon"
             style={{ background: engagement.color }}
           >
-            <Activity className="w-5 h-5 text-white" />
+            <Activity className="analytics-icon" />
           </div>
-          <div 
-            className="w-3 h-3 rounded-full"
-            style={{ background: engagement.color }}
-          ></div>
+          <div className="analytics-status">
+            <div 
+              className="analytics-status-dot"
+              style={{ background: engagement.color }}
+            />
+          </div>
         </div>
-        <h4 className="font-semibold text-gray-800 mb-2 text-sm">Engagement</h4>
-        <p className="text-sm font-medium" style={{ color: engagement.color }}>
-          {engagement.level}
-        </p>
+        <div className="analytics-card-content">
+          <h4 className="analytics-title">Engagement</h4>
+          <p className="analytics-engagement-level" style={{ color: engagement.color }}>
+            {engagement.level}
+          </p>
+          <p className="analytics-subtitle">
+            Durchschnittliche Bearbeitungszeit
+          </p>
+        </div>
       </div>
 
       {/* Custom Answers Card */}
-      <div className="card">
-        <div className="flex items-center justify-between mb-3">
-          <div 
-            className="w-10 h-10 rounded-lg flex items-center justify-center"
-            style={{ background: 'var(--kaboom-mint)' }}
-          >
-            <Award className="w-5 h-5 text-white" />
+      <div className="analytics-card answers-card">
+        <div className="analytics-card-header">
+          <div className="analytics-icon-container answers-icon">
+            <Award className="analytics-icon" />
           </div>
-          <span className="text-xl font-bold text-gray-800">{customAnswersCount}</span>
+          <div className="analytics-metric">
+            <span className="analytics-value">{customAnswersCount}</span>
+            <span className="analytics-total">/{userResponses.length}</span>
+          </div>
         </div>
-        <h4 className="font-semibold text-gray-800 mb-2 text-sm">Individuelle Antworten</h4>
-        <div className="flex gap-1 mb-2">
-          <div 
-            className="h-1.5 rounded-full flex-1"
-            style={{ 
-              background: customAnswersCount > 0 ? 'var(--kaboom-dragonfruit)' : 'var(--gray-200)'
-            }}
-          ></div>
-          <div 
-            className="h-1.5 rounded-full flex-1"
-            style={{ 
-              background: standardAnswersCount > 0 ? 'var(--kaboom-violet)' : 'var(--gray-200)'
-            }}
-          ></div>
+        <div className="analytics-card-content">
+          <h4 className="analytics-title">Individuelle Antworten</h4>
+          <p className="analytics-subtitle">
+            {standardAnswersCount} Standard-Antworten
+          </p>
+          <div className="analytics-distribution">
+            <div className="analytics-distribution-bar">
+              <div 
+                className="analytics-distribution-custom"
+                style={{ width: `${(customAnswersCount / Math.max(userResponses.length, 1)) * 100}%` }}
+              />
+              <div 
+                className="analytics-distribution-standard"
+                style={{ width: `${(standardAnswersCount / Math.max(userResponses.length, 1)) * 100}%` }}
+              />
+            </div>
+            <div className="analytics-distribution-legend">
+              <div className="analytics-legend-item">
+                <div className="analytics-legend-color custom" />
+                <span>Individuell</span>
+              </div>
+              <div className="analytics-legend-item">
+                <div className="analytics-legend-color standard" />
+                <span>Standard</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <p className="text-xs text-gray-600">
-          {standardAnswersCount} Standard-Antworten
-        </p>
       </div>
     </div>
   );

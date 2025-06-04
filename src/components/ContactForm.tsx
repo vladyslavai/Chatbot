@@ -60,13 +60,13 @@ export default function ContactForm({ preferredProfile, onSubmit, onCancel }: Co
       {/* Header */}
       <div className="text-center mb-6">
         <div 
-          className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4"
-          style={{ background: 'var(--gradient-primary)' }}
+          className="w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4"
+          style={{ background: 'var(--zurich-blue)' }}
         >
           <Mail className="w-8 h-8 text-white" />
         </div>
-        <h2 className="text-2xl font-black mb-2" style={{ color: 'var(--kaboom-violet)' }}>
-          Interessiert an Schutzpolizei?
+        <h2 className="text-2xl font-bold mb-2" style={{ color: 'var(--zurich-navy)' }}>
+          Interessiert an {preferredProfile}?
         </h2>
         <p className="text-gray-600">
           Wir melden uns gerne bei Ihnen für weitere Informationen.
@@ -89,7 +89,7 @@ export default function ContactForm({ preferredProfile, onSubmit, onCancel }: Co
               />
             </div>
             {errors.firstName && (
-              <p className="text-xs mt-1" style={{ color: 'var(--kaboom-dragonfruit)' }}>
+              <p className="text-xs mt-1" style={{ color: 'var(--error)' }}>
                 {errors.firstName}
               </p>
             )}
@@ -108,7 +108,7 @@ export default function ContactForm({ preferredProfile, onSubmit, onCancel }: Co
               />
             </div>
             {errors.lastName && (
-              <p className="text-xs mt-1" style={{ color: 'var(--kaboom-dragonfruit)' }}>
+              <p className="text-xs mt-1" style={{ color: 'var(--error)' }}>
                 {errors.lastName}
               </p>
             )}
@@ -129,7 +129,7 @@ export default function ContactForm({ preferredProfile, onSubmit, onCancel }: Co
             />
           </div>
           {errors.email && (
-            <p className="text-xs mt-1" style={{ color: 'var(--kaboom-dragonfruit)' }}>
+            <p className="text-xs mt-1" style={{ color: 'var(--error)' }}>
               {errors.email}
             </p>
           )}
